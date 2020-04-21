@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.am.mapper.TUserMapper" >
+  <resultMap id="BaseResultMap" type="com.am.pojo.TUser" >
+    <id column="userId" property="userid" jdbcType="INTEGER" />
+    <result column="userLoginId" property="userloginid" jdbcType="VARCHAR" />
+    <result column="userLoginPasswd" property="userloginpasswd" jdbcType="VARCHAR" />
+    <result column="userSex" property="usersex" jdbcType="CHAR" />
+    <result column="userContact" property="usercontact" jdbcType="VARCHAR" />
+    <result column="userEmail" property="useremail" jdbcType="VARCHAR" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    userId, userLoginId, userLoginPasswd, userSex, userContact, userEmail, CreateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.am.pojo.TUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_user
+    where userId = #{userid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_user
+    where userId = #{userid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.am.pojo.TUserExample" >
+    delete from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.am.pojo.TUser" >
+    insert into t_user (userId, userLoginId, userLoginPasswd, 
+      userSex, userContact, userEmail, 
+      CreateTime)
+    values (#{userid,jdbcType=INTEGER}, #{userloginid,jdbcType=VARCHAR}, #{userloginpasswd,jdbcType=VARCHAR}, 
+      #{usersex,jdbcType=CHAR}, #{usercontact,jdbcType=VARCHAR}, #{useremail,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.am.pojo.TUser" >
+    insert into t_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        userId,
+      </if>
+      <if test="userloginid != null" >
+        userLoginId,
+      </if>
+      <if test="userloginpasswd != null" >
+        userLoginPasswd,
+      </if>
+      <if test="usersex != null" >
+        userSex,
+      </if>
+      <if test="usercontact != null" >
+        userContact,
+      </if>
+      <if test="useremail != null" >
+        userEmail,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userid != null" >
+        #{userid,jdbcType=INTEGER},
+      </if>
+      <if test="userloginid != null" >
+        #{userloginid,jdbcType=VARCHAR},
+      </if>
+      <if test="userloginpasswd != null" >
+        #{userloginpasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="usersex != null" >
+        #{usersex,jdbcType=CHAR},
+      </if>
+      <if test="usercontact != null" >
+        #{usercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="useremail != null" >
+        #{useremail,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.am.pojo.TUserExample" resultType="java.lang.Integer" >
+    select count(*) from t_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_user
+    <set >
+      <if test="record.userid != null" >
+        userId = #{record.userid,jdbcType=INTEGER},
+      </if>
+      <if test="record.userloginid != null" >
+        userLoginId = #{record.userloginid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userloginpasswd != null" >
+        userLoginPasswd = #{record.userloginpasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usersex != null" >
+        userSex = #{record.usersex,jdbcType=CHAR},
+      </if>
+      <if test="record.usercontact != null" >
+        userContact = #{record.usercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.useremail != null" >
+        userEmail = #{record.useremail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_user
+    set userId = #{record.userid,jdbcType=INTEGER},
+      userLoginId = #{record.userloginid,jdbcType=VARCHAR},
+      userLoginPasswd = #{record.userloginpasswd,jdbcType=VARCHAR},
+      userSex = #{record.usersex,jdbcType=CHAR},
+      userContact = #{record.usercontact,jdbcType=VARCHAR},
+      userEmail = #{record.useremail,jdbcType=VARCHAR},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.am.pojo.TUser" >
+    update t_user
+    <set >
+      <if test="userloginid != null" >
+        userLoginId = #{userloginid,jdbcType=VARCHAR},
+      </if>
+      <if test="userloginpasswd != null" >
+        userLoginPasswd = #{userloginpasswd,jdbcType=VARCHAR},
+      </if>
+      <if test="usersex != null" >
+        userSex = #{usersex,jdbcType=CHAR},
+      </if>
+      <if test="usercontact != null" >
+        userContact = #{usercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="useremail != null" >
+        userEmail = #{useremail,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.am.pojo.TUser" >
+    update t_user
+    set userLoginId = #{userloginid,jdbcType=VARCHAR},
+      userLoginPasswd = #{userloginpasswd,jdbcType=VARCHAR},
+      userSex = #{usersex,jdbcType=CHAR},
+      userContact = #{usercontact,jdbcType=VARCHAR},
+      userEmail = #{useremail,jdbcType=VARCHAR},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP}
+    where userId = #{userid,jdbcType=INTEGER}
+  </update>
+</mapper>

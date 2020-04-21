@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.am.mapper.TOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.am.pojo.TOrder" >
+    <id column="orderId" property="orderid" jdbcType="INTEGER" />
+    <result column="orderNum" property="ordernum" jdbcType="VARCHAR" />
+    <result column="orderOwer" property="orderower" jdbcType="VARCHAR" />
+    <result column="orerOwerContact" property="orerowercontact" jdbcType="VARCHAR" />
+    <result column="orderOwerAddress" property="orderoweraddress" jdbcType="VARCHAR" />
+    <result column="orderWeight" property="orderweight" jdbcType="DECIMAL" />
+    <result column="orderCurrency" property="ordercurrency" jdbcType="DECIMAL" />
+    <result column="orderCreate" property="ordercreate" jdbcType="TIMESTAMP" />
+    <result column="orderStatus" property="orderstatus" jdbcType="VARCHAR" />
+    <result column="vehicleId" property="vehicleid" jdbcType="INTEGER" />
+    <result column="routeId" property="routeid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    orderId, orderNum, orderOwer, orerOwerContact, orderOwerAddress, orderWeight, orderCurrency, 
+    orderCreate, orderStatus, vehicleId, routeId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.am.pojo.TOrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_order
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.am.pojo.TOrderExample" >
+    delete from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.am.pojo.TOrder" >
+    insert into t_order (orderId, orderNum, orderOwer, 
+      orerOwerContact, orderOwerAddress, orderWeight, 
+      orderCurrency, orderCreate, orderStatus, 
+      vehicleId, routeId)
+    values (#{orderid,jdbcType=INTEGER}, #{ordernum,jdbcType=VARCHAR}, #{orderower,jdbcType=VARCHAR}, 
+      #{orerowercontact,jdbcType=VARCHAR}, #{orderoweraddress,jdbcType=VARCHAR}, #{orderweight,jdbcType=DECIMAL}, 
+      #{ordercurrency,jdbcType=DECIMAL}, #{ordercreate,jdbcType=TIMESTAMP}, #{orderstatus,jdbcType=VARCHAR}, 
+      #{vehicleid,jdbcType=INTEGER}, #{routeid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.am.pojo.TOrder" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderId,
+      </if>
+      <if test="ordernum != null" >
+        orderNum,
+      </if>
+      <if test="orderower != null" >
+        orderOwer,
+      </if>
+      <if test="orerowercontact != null" >
+        orerOwerContact,
+      </if>
+      <if test="orderoweraddress != null" >
+        orderOwerAddress,
+      </if>
+      <if test="orderweight != null" >
+        orderWeight,
+      </if>
+      <if test="ordercurrency != null" >
+        orderCurrency,
+      </if>
+      <if test="ordercreate != null" >
+        orderCreate,
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus,
+      </if>
+      <if test="vehicleid != null" >
+        vehicleId,
+      </if>
+      <if test="routeid != null" >
+        routeId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="ordernum != null" >
+        #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderower != null" >
+        #{orderower,jdbcType=VARCHAR},
+      </if>
+      <if test="orerowercontact != null" >
+        #{orerowercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="orderoweraddress != null" >
+        #{orderoweraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderweight != null" >
+        #{orderweight,jdbcType=DECIMAL},
+      </if>
+      <if test="ordercurrency != null" >
+        #{ordercurrency,jdbcType=DECIMAL},
+      </if>
+      <if test="ordercreate != null" >
+        #{ordercreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderstatus != null" >
+        #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="routeid != null" >
+        #{routeid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.am.pojo.TOrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_order
+    <set >
+      <if test="record.orderid != null" >
+        orderId = #{record.orderid,jdbcType=INTEGER},
+      </if>
+      <if test="record.ordernum != null" >
+        orderNum = #{record.ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderower != null" >
+        orderOwer = #{record.orderower,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orerowercontact != null" >
+        orerOwerContact = #{record.orerowercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderoweraddress != null" >
+        orderOwerAddress = #{record.orderoweraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderweight != null" >
+        orderWeight = #{record.orderweight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordercurrency != null" >
+        orderCurrency = #{record.ordercurrency,jdbcType=DECIMAL},
+      </if>
+      <if test="record.ordercreate != null" >
+        orderCreate = #{record.ordercreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderstatus != null" >
+        orderStatus = #{record.orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleid != null" >
+        vehicleId = #{record.vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.routeid != null" >
+        routeId = #{record.routeid,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_order
+    set orderId = #{record.orderid,jdbcType=INTEGER},
+      orderNum = #{record.ordernum,jdbcType=VARCHAR},
+      orderOwer = #{record.orderower,jdbcType=VARCHAR},
+      orerOwerContact = #{record.orerowercontact,jdbcType=VARCHAR},
+      orderOwerAddress = #{record.orderoweraddress,jdbcType=VARCHAR},
+      orderWeight = #{record.orderweight,jdbcType=DECIMAL},
+      orderCurrency = #{record.ordercurrency,jdbcType=DECIMAL},
+      orderCreate = #{record.ordercreate,jdbcType=TIMESTAMP},
+      orderStatus = #{record.orderstatus,jdbcType=VARCHAR},
+      vehicleId = #{record.vehicleid,jdbcType=INTEGER},
+      routeId = #{record.routeid,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.am.pojo.TOrder" >
+    update t_order
+    <set >
+      <if test="ordernum != null" >
+        orderNum = #{ordernum,jdbcType=VARCHAR},
+      </if>
+      <if test="orderower != null" >
+        orderOwer = #{orderower,jdbcType=VARCHAR},
+      </if>
+      <if test="orerowercontact != null" >
+        orerOwerContact = #{orerowercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="orderoweraddress != null" >
+        orderOwerAddress = #{orderoweraddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orderweight != null" >
+        orderWeight = #{orderweight,jdbcType=DECIMAL},
+      </if>
+      <if test="ordercurrency != null" >
+        orderCurrency = #{ordercurrency,jdbcType=DECIMAL},
+      </if>
+      <if test="ordercreate != null" >
+        orderCreate = #{ordercreate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderstatus != null" >
+        orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleid != null" >
+        vehicleId = #{vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="routeid != null" >
+        routeId = #{routeid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.am.pojo.TOrder" >
+    update t_order
+    set orderNum = #{ordernum,jdbcType=VARCHAR},
+      orderOwer = #{orderower,jdbcType=VARCHAR},
+      orerOwerContact = #{orerowercontact,jdbcType=VARCHAR},
+      orderOwerAddress = #{orderoweraddress,jdbcType=VARCHAR},
+      orderWeight = #{orderweight,jdbcType=DECIMAL},
+      orderCurrency = #{ordercurrency,jdbcType=DECIMAL},
+      orderCreate = #{ordercreate,jdbcType=TIMESTAMP},
+      orderStatus = #{orderstatus,jdbcType=VARCHAR},
+      vehicleId = #{vehicleid,jdbcType=INTEGER},
+      routeId = #{routeid,jdbcType=INTEGER}
+    where orderId = #{orderid,jdbcType=INTEGER}
+  </update>
+  
+    <resultMap id="BaseResultMap1" type="com.am.pojo.OrderVO" >
+	    <id column="orderId" property="orderid" jdbcType="INTEGER" />
+	    <result column="orderNum" property="ordernum" jdbcType="VARCHAR" />
+	    <result column="orderOwer" property="orderower" jdbcType="VARCHAR" />
+	    <result column="orerOwerContact" property="orerowercontact" jdbcType="VARCHAR" />
+	    <result column="orderOwerAddress" property="orderoweraddress" jdbcType="VARCHAR" />
+	    <result column="orderWeight" property="orderweight" jdbcType="DECIMAL" />
+	    <result column="orderCurrency" property="ordercurrency" jdbcType="DECIMAL" />
+	    <result column="orderCreate" property="ordercreate" jdbcType="TIMESTAMP" />
+	    <result column="orderStatus" property="orderstatus" jdbcType="VARCHAR" />
+	    <result column="vehicleId" property="vehicleid" jdbcType="INTEGER" />
+	    <result column="routeId" property="routeid" jdbcType="INTEGER" />
+	    <result column="vehiclename" property="vehiclename" jdbcType="VARCHAR" />
+	    <result column="routename" property="routename" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectOrderByCondition" resultMap="BaseResultMap1" parameterType="java.util.HashMap">
+  	select t.*,t3.vehicleNum as vehiclename from (
+       select t1.*,t2.routeName as routename 
+       from t_order t1 
+       left join  t_route t2
+       on t1.routeId = t2.routeId
+       where 1=1 
+        <if test="orderNum !=null">
+        	and t1.orderNum like concat('%',#{orderNum},'%') 
+        </if>
+        <if test="orderStatus !=null and orderStatus !=''">
+        	and t1.orderStatus  = #{orderStatus}
+        </if>
+       ) t
+       left join t_vehicle t3
+       on t.vehicleId = t3.vehicleId
+  </select>
+  
+   <resultMap id="BaseResultMap2" type="com.am.pojo.SumOrderVO" >
+	    <result column="itemname" property="itemname" jdbcType="VARCHAR" />
+	    <result column="itemweight" property="itemnum" jdbcType="INTEGER" />
+	    <result column="itemcurrency" property="itemcurrency" jdbcType="DECIMAL" />
+  	</resultMap>
+  	<select id="selectSumOrderByCondition" resultMap="BaseResultMap2" parameterType="java.util.HashMap">
+  		select title as itemname, itemweight,itemcurrency from(
+		select t2.routeName  as title,sum(t1.orderWeight) as itemweight,sum(t1.orderCurrency) as itemcurrency
+		from t_order t1, t_route t2
+		where t1.routeId =t2.routeId  and  t1.routeId is not null 
+		<if test="beginDate != null and beginDate !=''">
+			and t1.orderCreate &gt;= DATE_FORMAT( #{beginDate}, '%Y-%m-%d')
+		</if>
+		<if test="endDate != null and endDate !=''">
+			and t1.orderCreate &lt;= DATE_FORMAT( #{endDate}, '%Y-%m-%d')
+		</if>
+		group by t2.routeId) t
+  	</select>
+</mapper>

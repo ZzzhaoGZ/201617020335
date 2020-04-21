@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.am.mapper.TVehicleMapper" >
+  <resultMap id="BaseResultMap" type="com.am.pojo.TVehicle" >
+    <id column="vehicleId" property="vehicleid" jdbcType="INTEGER" />
+    <result column="vehicleOwerName" property="vehicleowername" jdbcType="VARCHAR" />
+    <result column="vehicleNum" property="vehiclenum" jdbcType="VARCHAR" />
+    <result column="vehicleOwerContact" property="vehicleowercontact" jdbcType="VARCHAR" />
+    <result column="vehicleOwerID" property="vehicleowerid" jdbcType="VARCHAR" />
+    <result column="vehicleDriverName" property="vehicledrivername" jdbcType="VARCHAR" />
+    <result column="vehicleDriverID" property="vehicledriverid" jdbcType="VARCHAR" />
+    <result column="vehicleTypeId" property="vehicletypeid" jdbcType="INTEGER" />
+    <result column="vehicleLoad" property="vehicleload" jdbcType="DECIMAL" />
+    <result column="vehicleStatus" property="vehiclestatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    vehicleId, vehicleOwerName, vehicleNum, vehicleOwerContact, vehicleOwerID, vehicleDriverName, 
+    vehicleDriverID, vehicleTypeId, vehicleLoad, vehicleStatus
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.am.pojo.TVehicleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_vehicle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_vehicle
+    where vehicleId = #{vehicleid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_vehicle
+    where vehicleId = #{vehicleid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.am.pojo.TVehicleExample" >
+    delete from t_vehicle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.am.pojo.TVehicle" >
+    insert into t_vehicle (vehicleId, vehicleOwerName, vehicleNum, 
+      vehicleOwerContact, vehicleOwerID, vehicleDriverName, 
+      vehicleDriverID, vehicleTypeId, vehicleLoad, 
+      vehicleStatus)
+    values (#{vehicleid,jdbcType=INTEGER}, #{vehicleowername,jdbcType=VARCHAR}, #{vehiclenum,jdbcType=VARCHAR}, 
+      #{vehicleowercontact,jdbcType=VARCHAR}, #{vehicleowerid,jdbcType=VARCHAR}, #{vehicledrivername,jdbcType=VARCHAR}, 
+      #{vehicledriverid,jdbcType=VARCHAR}, #{vehicletypeid,jdbcType=INTEGER}, #{vehicleload,jdbcType=DECIMAL}, 
+      #{vehiclestatus,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.am.pojo.TVehicle" >
+    insert into t_vehicle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="vehicleid != null" >
+        vehicleId,
+      </if>
+      <if test="vehicleowername != null" >
+        vehicleOwerName,
+      </if>
+      <if test="vehiclenum != null" >
+        vehicleNum,
+      </if>
+      <if test="vehicleowercontact != null" >
+        vehicleOwerContact,
+      </if>
+      <if test="vehicleowerid != null" >
+        vehicleOwerID,
+      </if>
+      <if test="vehicledrivername != null" >
+        vehicleDriverName,
+      </if>
+      <if test="vehicledriverid != null" >
+        vehicleDriverID,
+      </if>
+      <if test="vehicletypeid != null" >
+        vehicleTypeId,
+      </if>
+      <if test="vehicleload != null" >
+        vehicleLoad,
+      </if>
+      <if test="vehiclestatus != null" >
+        vehicleStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="vehicleid != null" >
+        #{vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleowername != null" >
+        #{vehicleowername,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclenum != null" >
+        #{vehiclenum,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleowercontact != null" >
+        #{vehicleowercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleowerid != null" >
+        #{vehicleowerid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicledrivername != null" >
+        #{vehicledrivername,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicledriverid != null" >
+        #{vehicledriverid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicletypeid != null" >
+        #{vehicletypeid,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleload != null" >
+        #{vehicleload,jdbcType=DECIMAL},
+      </if>
+      <if test="vehiclestatus != null" >
+        #{vehiclestatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.am.pojo.TVehicleExample" resultType="java.lang.Integer" >
+    select count(*) from t_vehicle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_vehicle
+    <set >
+      <if test="record.vehicleid != null" >
+        vehicleId = #{record.vehicleid,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleowername != null" >
+        vehicleOwerName = #{record.vehicleowername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehiclenum != null" >
+        vehicleNum = #{record.vehiclenum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleowercontact != null" >
+        vehicleOwerContact = #{record.vehicleowercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicleowerid != null" >
+        vehicleOwerID = #{record.vehicleowerid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicledrivername != null" >
+        vehicleDriverName = #{record.vehicledrivername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicledriverid != null" >
+        vehicleDriverID = #{record.vehicledriverid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.vehicletypeid != null" >
+        vehicleTypeId = #{record.vehicletypeid,jdbcType=INTEGER},
+      </if>
+      <if test="record.vehicleload != null" >
+        vehicleLoad = #{record.vehicleload,jdbcType=DECIMAL},
+      </if>
+      <if test="record.vehiclestatus != null" >
+        vehicleStatus = #{record.vehiclestatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_vehicle
+    set vehicleId = #{record.vehicleid,jdbcType=INTEGER},
+      vehicleOwerName = #{record.vehicleowername,jdbcType=VARCHAR},
+      vehicleNum = #{record.vehiclenum,jdbcType=VARCHAR},
+      vehicleOwerContact = #{record.vehicleowercontact,jdbcType=VARCHAR},
+      vehicleOwerID = #{record.vehicleowerid,jdbcType=VARCHAR},
+      vehicleDriverName = #{record.vehicledrivername,jdbcType=VARCHAR},
+      vehicleDriverID = #{record.vehicledriverid,jdbcType=VARCHAR},
+      vehicleTypeId = #{record.vehicletypeid,jdbcType=INTEGER},
+      vehicleLoad = #{record.vehicleload,jdbcType=DECIMAL},
+      vehicleStatus = #{record.vehiclestatus,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.am.pojo.TVehicle" >
+    update t_vehicle
+    <set >
+      <if test="vehicleowername != null" >
+        vehicleOwerName = #{vehicleowername,jdbcType=VARCHAR},
+      </if>
+      <if test="vehiclenum != null" >
+        vehicleNum = #{vehiclenum,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleowercontact != null" >
+        vehicleOwerContact = #{vehicleowercontact,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicleowerid != null" >
+        vehicleOwerID = #{vehicleowerid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicledrivername != null" >
+        vehicleDriverName = #{vehicledrivername,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicledriverid != null" >
+        vehicleDriverID = #{vehicledriverid,jdbcType=VARCHAR},
+      </if>
+      <if test="vehicletypeid != null" >
+        vehicleTypeId = #{vehicletypeid,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleload != null" >
+        vehicleLoad = #{vehicleload,jdbcType=DECIMAL},
+      </if>
+      <if test="vehiclestatus != null" >
+        vehicleStatus = #{vehiclestatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where vehicleId = #{vehicleid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.am.pojo.TVehicle" >
+    update t_vehicle
+    set vehicleOwerName = #{vehicleowername,jdbcType=VARCHAR},
+      vehicleNum = #{vehiclenum,jdbcType=VARCHAR},
+      vehicleOwerContact = #{vehicleowercontact,jdbcType=VARCHAR},
+      vehicleOwerID = #{vehicleowerid,jdbcType=VARCHAR},
+      vehicleDriverName = #{vehicledrivername,jdbcType=VARCHAR},
+      vehicleDriverID = #{vehicledriverid,jdbcType=VARCHAR},
+      vehicleTypeId = #{vehicletypeid,jdbcType=INTEGER},
+      vehicleLoad = #{vehicleload,jdbcType=DECIMAL},
+      vehicleStatus = #{vehiclestatus,jdbcType=VARCHAR}
+    where vehicleId = #{vehicleid,jdbcType=INTEGER}
+  </update>
+  
+    <resultMap id="BaseResultMap1" type="com.am.pojo.VehicleVO" >
+	    <id column="vehicleId" property="vehicleid" jdbcType="INTEGER" />
+	    <result column="vehicleOwerName" property="vehicleowername" jdbcType="VARCHAR" />
+	    <result column="vehicleNum" property="vehiclenum" jdbcType="VARCHAR" />
+	    <result column="vehicleOwerContact" property="vehicleowercontact" jdbcType="VARCHAR" />
+	    <result column="vehicleOwerID" property="vehicleowerid" jdbcType="VARCHAR" />
+	    <result column="vehicleDriverName" property="vehicledrivername" jdbcType="VARCHAR" />
+	    <result column="vehicleDriverID" property="vehicledriverid" jdbcType="VARCHAR" />
+	    <result column="vehicleTypeId" property="vehicletypeid" jdbcType="INTEGER" />
+	    <result column="vehicleLoad" property="vehicleload" jdbcType="DECIMAL" />
+	    <result column="vehicleStatus" property="vehiclestatus" jdbcType="VARCHAR" />
+	    <result column="typeName" property="vehicletypename" jdbcType="VARCHAR" />
+   </resultMap>
+   <select id="selectVehicleByCondition" resultMap="BaseResultMap1" parameterType="java.util.HashMap"> 
+   		select t1.*,t2.typeName as vehicletypename 
+		from t_vehicle t1,t_vehicletype t2
+		where t1.vehicleTypeId= t2.typeId
+		<if test="vehicleTypeId !=null">
+			and t1.vehicleTypeId =#{vehicleTypeId}
+		</if>
+		<if test="vehicleNum !=null and vehicleNum !=''">
+			and t1.vehicleNum like concat('%',#{vehicleNum},'%')
+		</if>
+		<if test="vehicleStatus !=null and vehicleStatus !=''">
+			and t1.vehicleStatus = #{vehicleStatus}
+		</if>
+   </select>
+</mapper>

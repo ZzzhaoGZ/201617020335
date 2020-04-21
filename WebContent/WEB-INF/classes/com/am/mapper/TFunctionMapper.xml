@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.am.mapper.TFunctionMapper" >
+  <resultMap id="BaseResultMap" type="com.am.pojo.TFunction" >
+    <id column="functionId" property="functionid" jdbcType="INTEGER" />
+    <result column="functionParentId" property="functionparentid" jdbcType="INTEGER" />
+    <result column="functionName" property="functionname" jdbcType="VARCHAR" />
+    <result column="functionUrl" property="functionurl" jdbcType="VARCHAR" />
+    <result column="functionIsParent" property="functionisparent" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    functionId, functionParentId, functionName, functionUrl, functionIsParent
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.am.pojo.TFunctionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_function
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_function
+    where functionId = #{functionid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_function
+    where functionId = #{functionid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.am.pojo.TFunctionExample" >
+    delete from t_function
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.am.pojo.TFunction" >
+    insert into t_function (functionId, functionParentId, functionName, 
+      functionUrl, functionIsParent)
+    values (#{functionid,jdbcType=INTEGER}, #{functionparentid,jdbcType=INTEGER}, #{functionname,jdbcType=VARCHAR}, 
+      #{functionurl,jdbcType=VARCHAR}, #{functionisparent,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.am.pojo.TFunction" >
+    insert into t_function
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="functionid != null" >
+        functionId,
+      </if>
+      <if test="functionparentid != null" >
+        functionParentId,
+      </if>
+      <if test="functionname != null" >
+        functionName,
+      </if>
+      <if test="functionurl != null" >
+        functionUrl,
+      </if>
+      <if test="functionisparent != null" >
+        functionIsParent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="functionid != null" >
+        #{functionid,jdbcType=INTEGER},
+      </if>
+      <if test="functionparentid != null" >
+        #{functionparentid,jdbcType=INTEGER},
+      </if>
+      <if test="functionname != null" >
+        #{functionname,jdbcType=VARCHAR},
+      </if>
+      <if test="functionurl != null" >
+        #{functionurl,jdbcType=VARCHAR},
+      </if>
+      <if test="functionisparent != null" >
+        #{functionisparent,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.am.pojo.TFunctionExample" resultType="java.lang.Integer" >
+    select count(*) from t_function
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_function
+    <set >
+      <if test="record.functionid != null" >
+        functionId = #{record.functionid,jdbcType=INTEGER},
+      </if>
+      <if test="record.functionparentid != null" >
+        functionParentId = #{record.functionparentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.functionname != null" >
+        functionName = #{record.functionname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionurl != null" >
+        functionUrl = #{record.functionurl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.functionisparent != null" >
+        functionIsParent = #{record.functionisparent,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_function
+    set functionId = #{record.functionid,jdbcType=INTEGER},
+      functionParentId = #{record.functionparentid,jdbcType=INTEGER},
+      functionName = #{record.functionname,jdbcType=VARCHAR},
+      functionUrl = #{record.functionurl,jdbcType=VARCHAR},
+      functionIsParent = #{record.functionisparent,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.am.pojo.TFunction" >
+    update t_function
+    <set >
+      <if test="functionparentid != null" >
+        functionParentId = #{functionparentid,jdbcType=INTEGER},
+      </if>
+      <if test="functionname != null" >
+        functionName = #{functionname,jdbcType=VARCHAR},
+      </if>
+      <if test="functionurl != null" >
+        functionUrl = #{functionurl,jdbcType=VARCHAR},
+      </if>
+      <if test="functionisparent != null" >
+        functionIsParent = #{functionisparent,jdbcType=BIT},
+      </if>
+    </set>
+    where functionId = #{functionid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.am.pojo.TFunction" >
+    update t_function
+    set functionParentId = #{functionparentid,jdbcType=INTEGER},
+      functionName = #{functionname,jdbcType=VARCHAR},
+      functionUrl = #{functionurl,jdbcType=VARCHAR},
+      functionIsParent = #{functionisparent,jdbcType=BIT}
+    where functionId = #{functionid,jdbcType=INTEGER}
+  </update>
+</mapper>

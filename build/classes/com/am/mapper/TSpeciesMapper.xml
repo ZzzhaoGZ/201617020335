@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.am.mapper.TSpeciesMapper" >
+  <resultMap id="BaseResultMap" type="com.am.pojo.TSpecies" >
+    <id column="speciesId" property="speciesid" jdbcType="INTEGER" />
+    <result column="speciesParentId" property="speciesparentid" jdbcType="INTEGER" />
+    <result column="speciesName" property="speciesname" jdbcType="VARCHAR" />
+    <result column="speciesTime" property="speciestime" jdbcType="TIMESTAMP" />
+    <result column="isParent" property="isparent" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    speciesId, speciesParentId, speciesName, speciesTime, isParent
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.am.pojo.TSpeciesExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_species
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_species
+    where speciesId = #{speciesid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_species
+    where speciesId = #{speciesid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.am.pojo.TSpeciesExample" >
+    delete from t_species
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.am.pojo.TSpecies" >
+    insert into t_species (speciesId, speciesParentId, speciesName, 
+      speciesTime, isParent)
+    values (#{speciesid,jdbcType=INTEGER}, #{speciesparentid,jdbcType=INTEGER}, #{speciesname,jdbcType=VARCHAR}, 
+      #{speciestime,jdbcType=TIMESTAMP}, #{isparent,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.am.pojo.TSpecies" >
+    insert into t_species
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="speciesid != null" >
+        speciesId,
+      </if>
+      <if test="speciesparentid != null" >
+        speciesParentId,
+      </if>
+      <if test="speciesname != null" >
+        speciesName,
+      </if>
+      <if test="speciestime != null" >
+        speciesTime,
+      </if>
+      <if test="isparent != null" >
+        isParent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="speciesid != null" >
+        #{speciesid,jdbcType=INTEGER},
+      </if>
+      <if test="speciesparentid != null" >
+        #{speciesparentid,jdbcType=INTEGER},
+      </if>
+      <if test="speciesname != null" >
+        #{speciesname,jdbcType=VARCHAR},
+      </if>
+      <if test="speciestime != null" >
+        #{speciestime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isparent != null" >
+        #{isparent,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.am.pojo.TSpeciesExample" resultType="java.lang.Integer" >
+    select count(*) from t_species
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_species
+    <set >
+      <if test="record.speciesid != null" >
+        speciesId = #{record.speciesid,jdbcType=INTEGER},
+      </if>
+      <if test="record.speciesparentid != null" >
+        speciesParentId = #{record.speciesparentid,jdbcType=INTEGER},
+      </if>
+      <if test="record.speciesname != null" >
+        speciesName = #{record.speciesname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.speciestime != null" >
+        speciesTime = #{record.speciestime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isparent != null" >
+        isParent = #{record.isparent,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_species
+    set speciesId = #{record.speciesid,jdbcType=INTEGER},
+      speciesParentId = #{record.speciesparentid,jdbcType=INTEGER},
+      speciesName = #{record.speciesname,jdbcType=VARCHAR},
+      speciesTime = #{record.speciestime,jdbcType=TIMESTAMP},
+      isParent = #{record.isparent,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.am.pojo.TSpecies" >
+    update t_species
+    <set >
+      <if test="speciesparentid != null" >
+        speciesParentId = #{speciesparentid,jdbcType=INTEGER},
+      </if>
+      <if test="speciesname != null" >
+        speciesName = #{speciesname,jdbcType=VARCHAR},
+      </if>
+      <if test="speciestime != null" >
+        speciesTime = #{speciestime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isparent != null" >
+        isParent = #{isparent,jdbcType=BIT},
+      </if>
+    </set>
+    where speciesId = #{speciesid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.am.pojo.TSpecies" >
+    update t_species
+    set speciesParentId = #{speciesparentid,jdbcType=INTEGER},
+      speciesName = #{speciesname,jdbcType=VARCHAR},
+      speciesTime = #{speciestime,jdbcType=TIMESTAMP},
+      isParent = #{isparent,jdbcType=BIT}
+    where speciesId = #{speciesid,jdbcType=INTEGER}
+  </update>
+</mapper>

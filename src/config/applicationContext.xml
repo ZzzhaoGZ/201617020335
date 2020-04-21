@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="  
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd  
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd  
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd  
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd  
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<bean id="config"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:config/db.properties</value>
+				<value>classpath:config/image.properties</value>
+			</list>
+		</property>
+	</bean>
+	<context:component-scan base-package="com.am.service" />
+	<!--本示例采用DBCP连接池，应预先把DBCP的jar包复制到工程的lib目录下。 -->
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<!-- <property name="initialSize" value="${connection.initialSize}"></property> 
+		<property name="maxActive" value="${connection.maxActive}"></property>
+		<property name="maxIdle" value="${connection.maxIdle}"></property>
+		<property name="minIdle" value="${connection.minIdle}"></property>
+		<property name="maxWait" value="${connection.maxWait}"></property>
+		<property name="removeAbandoned" value="${connection.removeAbandoned}"></property>
+		<property name="removeAbandonedTimeout" value="${connection.removeAbandonedTimeout}"></property>
+		<property name="logAbandoned" value="${connection.logAbandoned}"></property>-->
+	</bean>
+
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	<!-- 事务配置 -->
+	<!-- Spring AOP config配置切点 -->
+	<aop:config>
+		<aop:pointcut expression="execution(* com.am.service.*.*(..))"
+			id="bussinessService" />
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="bussinessService" />
+	</aop:config>
+
+	<!-- 配置那个类那个方法用到事务处理 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" read-only="true" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!--dataSource属性指定要用到的连接池 -->
+		<property name="dataSource" ref="dataSource" />
+		<!--configLocation属性指定mybatis的核心配置文件 -->
+		<property name="configLocation" value="classpath:config/Configure.xml" />
+		<!-- 所有配置的mapper文件 -->
+		<property name="mapperLocations" value="classpath*:com/am/mapper/*.xml" />
+	</bean>
+	<!-- <bean id="userMapper" class="org.mybatis.spring.mapper.MapperFactoryBean"> 
+		sqlSessionFactory属性指定要用到的SqlSessionFactory实例 <property name="sqlSessionFactory" 
+		ref="sqlSessionFactory" /> mapperInterface属性指定映射器接口，用于实现此接口并生成映射器对象 <property 
+		name="mapperInterface" value="com.am.inter.IUserOperation" /> </bean> -->
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.am.mapper" />
+	</bean>
+
+	<!-- 使用ehcache缓存 -->
+	<!-- <bean id="ehCacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"> 
+		<property name="configLocation" value="classpath:ehcache.xml" /> </bean> -->
+
+</beans>
